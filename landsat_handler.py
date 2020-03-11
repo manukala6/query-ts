@@ -1,4 +1,4 @@
-# handler for returning list of landsat scenes for input path/row
+# AWS Lambda function for returning list of landsat scenes ids for input path/row
 
 import json
 import boto3
