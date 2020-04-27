@@ -10,17 +10,6 @@ event = {
   }
 }
 
-def bad_request():
-    error = {}
-    error['Message'] = 'Bad request'
-    badResponse = {}
-    badResponse['statusCode'] = 200
-    badResponse['headers'] = {}
-    badResponse['headers']['Content-Type'] = 'application/json'
-    badResponse['body'] = json.dumps(error)
-
-    return badResponse
-
 def landsat_handler(event):
 
     # parse event
@@ -40,10 +29,7 @@ def landsat_handler(event):
     }
     dirs = []
     s3Response = s3.list_objects_v2(**params)
-    try:
-        prefixes = s3Response['CommonPrefixes']
-    except:
-        return bad_request()
+    prefixes = s3Response['CommonPrefixes']
     for prefix in prefixes:
         raw_dir = list(prefix.values())
         dirs.append(raw_dir[0])
@@ -65,12 +51,3 @@ def landsat_handler(event):
 
 responseObject = add_zero(path)
 print(responseObject)
-
-
-'''
-
-TODOS
-- parse landsat prefixes
-- filter through metadata (dates, cloud_cover)
-
-'''
